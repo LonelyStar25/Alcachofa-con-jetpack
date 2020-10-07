@@ -47,7 +47,7 @@ public class Ejer {
                         System.out.print("Introduce nombre de la carpeta a crear\n"
                                 + "> ");
                         nombre = sc.nextLine();
-                        comando = "md " + ruta + "\\" + nombre;
+                        comando = "mkdir " + ruta + "\\" + nombre;
                         break;
 
                     case 2:
@@ -57,27 +57,47 @@ public class Ejer {
                         System.out.print("Introduce nombre del archivo a crear\n"
                                 + "> ");
                         nombre = sc.nextLine();
-                        comando = "echo.>" + ruta + "\\" + nombre;
+                        comando = "echo. > " + ruta + "\\" + nombre;
                         break;
 
                     case 3:
-                        comando = "ipconfig";
+                        if (SOWindows) {
+                            comando = "ipconfig";
+                        } else {
+                            comando = "ifconfig";
+                        }
                         break;
 
                     case 4:
                         System.out.print("Introduce nombre de la interfaz de red\n"
                                 + "> ");
                         nombre = sc.nextLine();
-                        comando = "netsh interface ip show address \"" + nombre + "\" | findstr \"IP Address\"";
+                        if (SOWindows) {
+                            comando = "netsh interface ip show address \"" + nombre + "\" | findstr \"IP Address\"";
+                        } else {
+                            //No he encontrado cómo hacerlo en función de la interfaz de red :c
+                            comando = "ifconfig -a";
+                        }
                         break;
 
                     case 5:
-                        //No he encontrado cómo hacerlo en función de la interfaz de red :c
-                        comando = "getmac";
+                        System.out.print("Introduce nombre de la interfaz de red\n"
+                                + "> ");
+                        nombre = sc.nextLine();
+                        if (SOWindows) {
+                            //Igual que la opción 4, no encuentro cómo hacerlo
+                            comando = "getmac";
+                        } else {
+                            comando = "cat /sys/class/net/" + nombre + "/address";
+                        }
                         break;
 
                     case 6:
-                        comando = "ping google.com";
+                        if (SOWindows) {
+                            comando = "ping google.com";
+                        } else {
+                            comando = "curl -I https://linuxconfig.org";
+                        }
                         break;
                 }
 
